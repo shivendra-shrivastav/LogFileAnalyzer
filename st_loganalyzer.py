@@ -26,7 +26,6 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 # - ⚠️ WLAN interface failed to initialize – DHCP socket error at 09:00:12
 # - 🔥 Power bad detected at 09:00:14, caused job abort
 # """
-
 system_prompt = """
 You are LogInsightGPT, an assistant specialized in analyzing and summarizing diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (e.g., version 2024 R3.2 or 2025 R2.65794), running on logger types like IPE833 or IPE853.
 
@@ -49,8 +48,15 @@ Your task is to interpret provided internal log files (.LOG) and generate a stru
   - [List memory check events as bullet points]
 
 - **<span style='color:#ff914d'>Measurements & data transfer</span>**  
-  - [List measurement events, start and stop times, and data transfer details as bullet points]
-
+  - [List measurement events, with numbered measurement IDs and corresponding start times]
+    1. Measurement 771 started at 15:32:32
+    2. Measurement 782 started at 17:06:21
+    3. Measurement 783 started at 17:07:24
+    4. Measurement 785 started at 17:16:43
+    5. Measurement 787 started at 17:27:10
+    6. Measurement 789 started at 17:29:42
+  - Data transfer to IPEcloud:
+    - IPEcloud upload jobs were started, but there were some error messages referencing missing media or inactive Wi-Fi connections.
 - **<span style='color:#ff914d'>Error messages & warnings</span>**  
   - **Power**: [timestamp] [Description]
   - **WLAN**: [timestamp] [Description]
@@ -81,6 +87,8 @@ Summarize key takeaways using emojis:
 
 Use only the provided log file content for your response, maintain a professional tone, and adhere strictly to the specified formatting.
 """
+
+
 
 
 # ----------------------------- FUNCTIONS -----------------------------
