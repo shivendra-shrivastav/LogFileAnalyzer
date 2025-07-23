@@ -2,9 +2,9 @@
 import streamlit as st
 import os
 from openai import OpenAI
-#OPENAI_API_KEY="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"
+#OPENAI_API_KEY="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"
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-
+#client = OpenAI(api_key=OPENAI_API_KEY)
 # ----------------------------- SYSTEM PROMPT -----------------------------
 # system_prompt = """
 # You are LogInsightGPT, a specialized assistant trained to interpret diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (version 2024 R3.2 and 2025 R2.65794) running on hardware like the IPE833 or IPE853 loggers.
@@ -31,71 +31,58 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 system_prompt = """
 You are LogInsightGPT, an assistant specialized in analyzing and summarizing diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (e.g., version 2024 R3.2 or 2025 R2.65794), running on logger types like IPE833 or IPE853.
 
-Your task is to:
-- Interpret internal log files (.LOG)
-- Generate a structured and readable summary
-- Use bold labels and colored field names (Streamlit-friendly HTML formatting)
-- Format sections to match a clean report layout with headings and line breaks
-
----
-
-Please format your output exactly like this:
-
----
+Your task is to interpret provided internal log files (.LOG) and generate a structured summary following the format exactly as below:
 
 ### 🧾 General Information:
 
-**<span style='color:#4e88ff'>Software</span>**: IPEmotionRT 2025 R2.65794  
-**<span style='color:#4e88ff'>Hardware</span>**: Logger type IPE853  
-**<span style='color:#4e88ff'>Serial number</span>**: 85300023  
-**<span style='color:#4e88ff'>Period of the log entries</span>**: 07.07.2025 08:59:33 to 07.07.2025 15:32:16  
-**<span style='color:#4e88ff'>Configuration file</span>**: IPE853_IP100_300625_23.rwf
-
----
+**<span style='color:#4e88ff'>Software</span>**: [Software Version]  
+**<span style='color:#4e88ff'>Hardware</span>**: Logger type [Logger Type]  
+**<span style='color:#4e88ff'>Serial number</span>**: [Serial Number]  
+**<span style='color:#4e88ff'>Period of the log entries</span>**: [Log Entry Period]  
+**<span style='color:#4e88ff'>Configuration file</span>**: [Configuration File Name]
 
 ### 📌 Important Events:
 
-**<span style='color:#ff914d'>System start & initialization</span>**  
-Summarize all boot, startup, and mount activity. Indicate if the logger started successfully, when, and how often.
+- **<span style='color:#ff914d'>System start & initialization</span>**  
+  - [List startup events as bullet points]
 
-**<span style='color:#ff914d'>Memory check & cleanup</span>**  
-Report on disk checks (CheckDisk), file system integrity, and temp directory cleanup.
+- **<span style='color:#ff914d'>Memory check & cleanup</span>**  
+  - [List memory check events as bullet points]
 
-**<span style='color:#ff914d'>Measurements & data transfer</span>**  
-List start/stop times of measurement runs, available storage, and conversion jobs. Mention IPEcloud uploads and if they failed.
+- **<span style='color:#ff914d'>Measurements & data transfer</span>**  
+  - [List measurement events, start and stop times, and data transfer details as bullet points]
 
-**<span style='color:#ff914d'>Error messages & warnings</span>**  
-Clearly list issues using bullet points grouped by category:
-- **Power**: e.g., "Power bad" detected, unexpected shutdowns
-- **WLAN**: Interface down, DHCP failures, no IP assignment
-- **CAN**: Timeouts, CanServer errors
-- **GPS**: Format or signal errors
-- **Disk**: Dirty bit found, file system failures
-- **Protocols**: Invalid or unexpected capture configs
-
----
+- **<span style='color:#ff914d'>Error messages & warnings</span>**  
+  - **Power**: [timestamp] [Description]
+  - **WLAN**: [timestamp] [Description]
+  - **CAN**: [timestamp] [Description]
+  - **GPS**: [timestamp] [Description]
+  - **Disk**: [timestamp] [Description]
+  - **Protocols**: [timestamp] [Description]
 
 ### ✅ Conclusion:
 
-Summarize 3–5 key takeaways using emojis and technical phrasing:
+Summarize key takeaways using emojis:
 
 - ✅ System initialized successfully and ran measurement jobs
 - ⚠️ Dirty bit found on /media/MEA during shutdown
 - ❌ CAN8 timeout at 15:30:28 and Wi-Fi dropout reported
 - ⚠️ Upload to IPEcloud failed due to missing media or inactive WLAN
 - ✅ Disk space and memory checks passed with no issues
-
----
-
-📝 Notes:
+ Notes:
+ 
 - All input logs are provided between markers like:
-  ===== START OF FILE: LOG_1108_IPEmotionRT.LOG =====
+  ===== START OF FILE: MEA_1108.LOG =====
   (content)
-  ===== END OF FILE: LOG_1108_IPEmotionRT.LOG =====
+  ===== END OF FILE: MEA_1108.LOG =====
 
 - Use only the information inside the logs.
 - Maintain professional tone, consistent formatting, and structured section headings.
+
+
+Use only the provided log file content for your response, maintain a professional tone, and adhere strictly to the specified formatting.
 """
+
 
 # ----------------------------- FUNCTIONS -----------------------------
 def combine_uploaded_logs(uploaded_files):
@@ -111,7 +98,9 @@ def combine_uploaded_logs(uploaded_files):
 # ----------------------------- STREAMLIT UI -----------------------------
 st.set_page_config(page_title="📊 IPE Log Analyzer", layout="wide")
 st.title("🛠️ IPE Log Analyzer")
-st.markdown(..., unsafe_allow_html=True)
+st.markdown("""
+Welcome to the **IPE Log Analyzer**! Upload one or more `.LOG` files from your IPEmotionRT logger to get a structured summary and ask questions about your log data.
+""", unsafe_allow_html=True)
 uploaded_files = st.file_uploader("📂 Upload one or more `.LOG` files", type="LOG", accept_multiple_files=True)
 
 if uploaded_files:
