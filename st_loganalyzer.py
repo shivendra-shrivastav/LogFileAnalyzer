@@ -2,8 +2,8 @@
 import streamlit as st
 import os
 from openai import OpenAI
-OPENAI_API_KEY="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"
-client = OpenAI(api_key=OPENAI_API_KEY)
+#OPENAI_API_KEY="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"
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # ----------------------------- SYSTEM PROMPT -----------------------------
 # system_prompt = """
