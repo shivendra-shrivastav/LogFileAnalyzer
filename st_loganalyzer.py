@@ -27,7 +27,6 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 # - ⚠️ WLAN interface failed to initialize – DHCP socket error at 09:00:12
 # - 🔥 Power bad detected at 09:00:14, caused job abort
 # """
-
 system_prompt = """
 You are LogInsightGPT, an assistant specialized in analyzing and summarizing diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (e.g., version 2024 R3.2 or 2025 R2.65794), running on logger types like IPE833 or IPE853.
 
@@ -89,6 +88,8 @@ Summarize key takeaways using emojis:
 
 Use only the provided log file content for your response, maintain a professional tone, and adhere strictly to the specified formatting.
 """
+
+
 
 
 # ----------------------------- FUNCTIONS -----------------------------
