@@ -2,8 +2,9 @@
 import streamlit as st
 import os
 from openai import OpenAI
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-#client = OpenAI(api_key=OPENAI_API_KEY)
+OPENAI_API_KEY="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"
+#client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+client = OpenAI(api_key=OPENAI_API_KEY)
 # ----------------------------- SYSTEM PROMPT -----------------------------
 # system_prompt = """
 # You are LogInsightGPT, a specialized assistant trained to interpret diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (version 2024 R3.2 and 2025 R2.65794) running on hardware like the IPE833 or IPE853 loggers.
@@ -49,8 +50,15 @@ Your task is to interpret provided internal log files (.LOG) and generate a stru
   - [List memory check events as bullet points]
 
 - **<span style='color:#ff914d'>Measurements & data transfer</span>**  
-  - [List measurement events, start and stop times, and data transfer details as bullet points]
-
+  - [List measurement events, with numbered measurement IDs and corresponding start times]
+    1. Measurement 771 started at 15:32:32
+    2. Measurement 782 started at 17:06:21
+    3. Measurement 783 started at 17:07:24
+    4. Measurement 785 started at 17:16:43
+    5. Measurement 787 started at 17:27:10
+    6. Measurement 789 started at 17:29:42
+  - Data transfer to IPEcloud:
+    - IPEcloud upload jobs were started, but there were some error messages referencing missing media or inactive Wi-Fi connections.
 - **<span style='color:#ff914d'>Error messages & warnings</span>**  
   - **Power**: [timestamp] [Description]
   - **WLAN**: [timestamp] [Description]
