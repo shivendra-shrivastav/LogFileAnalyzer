@@ -2,9 +2,7 @@
 import streamlit as st
 import os
 from openai import OpenAI
-OPENAI_API_KEY="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"
-#client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-client = OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 # ----------------------------- SYSTEM PROMPT -----------------------------
 # system_prompt = """
 # You are LogInsightGPT, a specialized assistant trained to interpret diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (version 2024 R3.2 and 2025 R2.65794) running on hardware like the IPE833 or IPE853 loggers.
