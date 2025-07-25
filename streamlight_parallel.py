@@ -8,7 +8,7 @@ import tiktoken
 # ------------------- CONFIGURABLE: Use "gpt-3.5-turbo" for lowest cost, "gpt-4o" for best quality ---------------
 MODEL_NAME = "gpt-3.5-turbo"  # Or "gpt-4o" for better/faster summary, more tokens
 
-client = OpenAI(api_key=st.secrets["openai"]["OPENAI_API_KEY"])
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 system_prompt = """
 You are LogInsightGPT, an assistant specialized in analyzing and summarizing diagnostic and runtime logs from IPETRONIK's IPEmotionRT system (e.g., version 2024 R3.2 or 2025 R2.65794), running on logger types like IPE833 or IPE853.
