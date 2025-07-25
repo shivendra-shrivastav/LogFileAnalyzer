@@ -3,3 +3,4 @@ openai
 langchain
 qdrant-client
 python-dotenv
+tiktoken
